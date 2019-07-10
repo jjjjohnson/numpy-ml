@@ -89,8 +89,9 @@ class GMM(object):
                 pi_c = self.pi[c]
                 mu_c = self.mu[c, :]
                 sigma_c = self.sigma[c, :, :]
-
+                
                 log_pi_c = np.log(pi_c)
+                # logP(x_i | c)
                 log_p_x_i = log_gaussian_pdf(x_i, mu_c, sigma_c)
 
                 # log N(X_i | mu_c, Sigma_c) + log pi_c
@@ -124,8 +125,9 @@ class GMM(object):
             for i in range(N):
                 wic = self.Q[i, c]
                 xi = self.X[i, :]
+                # (Z - mu)transpose(Z - mu)
                 outer += wic * np.outer(xi - mu_c, xi - mu_c)
-
+            # expected value
             outer /= n_c
             self.sigma[c, :, :] = outer
 
